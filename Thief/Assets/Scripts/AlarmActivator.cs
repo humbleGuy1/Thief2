@@ -4,27 +4,30 @@ using UnityEngine;
 
 public class AlarmActivator : MonoBehaviour
 {
-    [SerializeField] private AudioSource _alarmSound;
-    [SerializeField] private float _pathTime;
-    [SerializeField] private float _pathRunningTime;
-    private float _startVolume;
-    private float _targetVolume;
+    [SerializeField] private AudioSource _sound;
+    [SerializeField] private float _speed;
+
+    private float _minVolume;
+    private float _maxVolume;
+    private IEnumerator _increasingVolume;
+    private IEnumerator _decreasingVolume;
 
     private void Start()
     {
-        _startVolume = 0;
-        _targetVolume = 1;
+        _minVolume = 0;
+        _maxVolume = 1;
+        _increasingVolume = ChangeVolume(_sound, _maxVolume, _speed);
+        _decreasingVolume = ChangeVolume(_sound, _minVolume, _speed);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out Player player))
         {
-            _pathRunningTime = 0;
-            _alarmSound.volume = _startVolume;
-            _alarmSound.Play();
-            StopAllCoroutines();
-            StartCoroutine(IncreaseVolume());
+            _sound.volume = _minVolume;
+            _sound.Play();
+            StopCoroutine(_decreasingVolume);
+            StartCoroutine(_increasingVolume);
         }
     }
 
@@ -32,36 +35,21 @@ public class AlarmActivator : MonoBehaviour
     {
         if(other.gameObject.TryGetComponent(out Player player))
         {
-            
-            _pathRunningTime = 0;
-            StopAllCoroutines();
-            StartCoroutine(DecreaseVolume());
+            StopCoroutine(_increasingVolume);
+            StartCoroutine(_decreasingVolume);
 
-            if (_alarmSound.volume == _startVolume)
+            if (_sound.volume == _minVolume)
             {
-                _alarmSound.Stop();
+                _sound.Stop();
             }
-            
         }
     }
 
-    private IEnumerator IncreaseVolume()
+    private IEnumerator ChangeVolume(AudioSource sound, float _targetVolume, float speed)
     {
-
-        while (_alarmSound.volume < _targetVolume)
+        while (true)
         {
-            _pathRunningTime += Time.deltaTime;
-            _alarmSound.volume = Mathf.MoveTowards(_startVolume, _targetVolume, _pathRunningTime / _pathTime);
-            yield return null;
-        }
-    }
-
-    private IEnumerator DecreaseVolume()
-    {
-        while (_alarmSound.volume > _startVolume)
-        {
-            _pathRunningTime += Time.deltaTime;
-            _alarmSound.volume = Mathf.MoveTowards(_targetVolume, _startVolume, _pathRunningTime / _pathTime);
+            _sound.volume = Mathf.MoveTowards(sound.volume, _targetVolume, speed * Time.deltaTime);
             yield return null;
         }
     }

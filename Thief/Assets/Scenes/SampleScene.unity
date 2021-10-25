@@ -465,9 +465,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b663a25697c98d04390463c0e86384b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _alarmSound: {fileID: 748903092}
-  _pathTime: 4
-  _pathRunningTime: 0
+  _sound: {fileID: 748903092}
+  _speed: 0.5
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,7 +911,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.38
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
       propertyPath: m_LocalPosition.y
@@ -920,7 +919,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.96
+      value: -3.48
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 7737647c22c1fc64a88d5cd030c352ce, type: 3}
       propertyPath: m_LocalRotation.w
