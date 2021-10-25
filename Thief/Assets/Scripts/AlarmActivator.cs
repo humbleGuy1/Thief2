@@ -53,5 +53,4 @@ public class AlarmActivator : MonoBehaviour
             yield return null;
         }
     }
-
 }
